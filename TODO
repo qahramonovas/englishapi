@@ -1,0 +1,57 @@
+E-english:
+    -user model            ✅
+    -db: schema            ✅
+    -send email + celery   ✅
+    -forget password
+    -error messages        ✅
+    -login                 ✅
+    -register              ✅
+
+
+url:
+    ADMIN:
+        login                 ✅
+        email                 ✅
+        verify                ✅
+        register              ✅
+        logout                ✅
+
+        panel/unit/list       ✅
+        panel/unit/create     ✅
+        panel/unit/delete     ✅
+        panel/unit/update     ✅
+        panel/unit/search     ✅
+
+        panel/book/list       ✅
+        panel/book/create     ✅
+        panel/book/delete     ✅
+        panel/book/update     ✅
+        panel/book/search     ✅
+
+        panel/vocab/list       ✅
+        panel/vocab/create     ✅
+        panel/vocab/create_by_excel
+        panel/vocab/delete     ✅
+        panel/vocab/update     ✅
+        panel/vocab/search     ✅
+
+
+    USER:
+        unit/filter                   POST (book_id , unit_id)
+        unit/vocab/check              POST (vocab_id , word)
+            mset(user_id , {"correct" : 0 , "incorrect":0 , "unit_id":1})
+            mget(user_id)
+            mset(user_id , {"correct" : 0+1 , "incorrect":0 , "unit_id":1})
+
+        unit/list/<int:book_id>       GET ()
+
+        unit/try/filter               POST (type , amount , units_id) -> filter vocabs
+        unit/try/check                POST (vocab_id , word)
+            mset(user_id , {"correct" : 0 , "incorrect":0 , "unit_id":1})
+            mget(user_id)
+            mset(user_id , {"correct" : 0+1 , "incorrect":0 , "unit_id":1})
+            VocabTestResult.save()
+
+
+
+
