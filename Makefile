@@ -11,4 +11,4 @@ mig:
 
 migration_create:
 	mkdir apps/migrations
-	touch appp/migrations/__init__.py
+	touch apps/migrations/__init__.py
