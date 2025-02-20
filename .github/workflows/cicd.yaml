@@ -23,6 +23,7 @@ jobs:
             git pull 
             source /var/www/sarvinoz/englishapi/.venv/bin/activate
             pip install -r req.txt
+            make migration_create
             python3 manage.py makemigrations
             python3 manage.py migrate
             systemctl restart nginx.service
