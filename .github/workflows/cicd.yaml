@@ -1,0 +1,28 @@
+name: Drf aslmedia CI/CD Deployment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+       - name: executing remote ssh commands using ssh-key
+         uses: appleboy/ssh-action@v0.1.10
+         with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /var/www/sarvinoz/englishapi/
+            git reset --hard origin/main
+            git pull 
+            source /var/www/sarvinoz/englishapi/.venv/bin/activate
+            pip install -r req.txt
+            python3 manage.py makemigrations
+            python3 manage.py migrate
+            systemctl restart nginx.service
+            systemctl restart englishapi_sarvinoz.service
