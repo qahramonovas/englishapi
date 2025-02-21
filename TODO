@@ -84,6 +84,12 @@ project path : /var/www/sarvinoz/englishapi
 
 
 
+
+
+project path : /var/www/sarvinoz/englishapi
+
+
+
 -2) venv activate | pip install gunicorn
 
 -1) SETTINGS : STATIC_ROOT = os.path.join(BASE_DIR , "static")
@@ -94,7 +100,7 @@ project path : /var/www/sarvinoz/englishapi
     nano /etc/nginx/sites-available/englishapi_sarvinoz
 
     server {
-        listen       8001;
+        listen       8000;
         server_name  188.225.72.20;
 
         location = /favicon.ico { access_log off; log_not_found off; }
@@ -136,6 +142,23 @@ ExecStart=/var/www/sarvinoz/englishapi/.venv/bin/gunicorn --workers 3 --bind uni
 WantedBy=multi-user.target
 
 
+3.1) nano /etc/systemd/system/expense_celery.service
+
+[Unit]
+Description=Celery Service
+After=network.target
+Requires=expense_api.service
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/var/www/sarvinoz/englishapi
+ExecStart=/var/www/sarvinoz/englishapi/.venv/bin/celery -A root worker --loglevel=info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
 
 4) systemctl enable englishapi_sarvinoz.service
 5) systemctl start englishapi_sarvinoz.service
@@ -143,8 +166,12 @@ WantedBy=multi-user.target
 6) systemctl status englishapi_sarvinoz.service
 
 systemctl enable nginx.service
-                    systemctl status nginx.service
+systemctl restart nginx.service
+systemctl status nginx.service
 
+
+systemctl restart expense_api.service
+systemctl stop expense_api.service
 
 
 systemctl restart expense_celery.service
@@ -159,6 +186,27 @@ systemctl stop expense_celery.service
 scp file root@IP:/var/www
 python3 manage.py runserver 0:8004
 
+
+
+
+
+
+
+
+ufw:
+    sudo ufw status
+    sudo ufw allow 'Nginx HTTP'
+    sudo ufw allow 22
+    sudo ufw allow 80
+    sudo ufw allow 443
+    sudo ufw allow 8000
+    sudo ufw reload
+
+terminalda ishlatish kerak ohirida:
+    sudo nginx -t
+    ls -l /var/www/p25/dilshod/allauth/falcon.sock
+    sudo chown www-data:www-data /var/www/p25/dilshod/allauth/falcon.sock
+    sudo chmod 660 /var/www/p25/dilshod/allauth/falcon.sock
 
 
 
@@ -196,8 +244,8 @@ Requires=expense_api.service
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=/var/www/sarvinoz/Expenses
-ExecStart=/var/www/sarvinoz/Expenses/.venv/bin/celery -A root worker --loglevel=info
+WorkingDirectory=/var/www/sarvinoz/englishapi
+ExecStart=/var/www/sarvinoz/englishapi/.venv/bin/celery -A root worker --loglevel=info
 Restart=always
 
 [Install]
