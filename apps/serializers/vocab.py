@@ -15,6 +15,7 @@ class VocabModelSerializer(ModelSerializer):
             "audio_file": {"read_only" : True}
         }
 
+
     def validate(self, attrs):
         en = attrs.get('en')
         path = generate_audio_world(en)

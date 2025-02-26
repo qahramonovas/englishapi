@@ -123,7 +123,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'English Essential Project API',
-    'DESCRIPTION': 'Your project description',
+    'DESCRIPTION': 'Your projhttp://188.225.72.20:8000/ect description',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST':True
