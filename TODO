@@ -234,6 +234,7 @@ terminalda ishlatish kerak ohirida:
 
 
 
+
 3.1) nano /etc/systemd/system/expense_celery.service
 
 [Unit]
