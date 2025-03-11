@@ -7,6 +7,7 @@ from gtts import gTTS
 from root.settings import BASE_DIR
 
 
+
 def generate_audio_world(en_world):
     os.makedirs(join(BASE_DIR , 'media/vocab/audio'), exist_ok=True)
 
